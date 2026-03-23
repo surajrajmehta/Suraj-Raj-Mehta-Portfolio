@@ -153,3 +153,41 @@ if (track) {
         updateSlidePosition();
     });
 }
+
+// Custom Cursor Animation
+const cursorDot = document.querySelector("[data-cursor-dot]");
+const cursorOutline = document.querySelector("[data-cursor-outline]");
+
+window.addEventListener("mousemove", function(e) {
+    const posX = e.clientX;
+    const posY = e.clientY;
+
+    if (cursorDot && cursorOutline) {
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 300, fill: "forwards" });
+    }
+});
+
+// Interactive hover effects for the custom cursor
+const interactables = document.querySelectorAll('a, button, .mobile-menu-btn, .carousel-btn');
+interactables.forEach(interactive => {
+    interactive.addEventListener('mouseenter', () => {
+        if(cursorOutline) {
+            cursorOutline.style.transform = "translate(-50%, -50%) scale(1.6)";
+            cursorOutline.style.backgroundColor = "rgba(0, 243, 255, 0.1)";
+            cursorOutline.style.borderColor = "var(--primary)";
+        }
+    });
+    interactive.addEventListener('mouseleave', () => {
+        if(cursorOutline) {
+            cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+            cursorOutline.style.backgroundColor = "transparent";
+            cursorOutline.style.borderColor = "var(--secondary)";
+        }
+    });
+});
